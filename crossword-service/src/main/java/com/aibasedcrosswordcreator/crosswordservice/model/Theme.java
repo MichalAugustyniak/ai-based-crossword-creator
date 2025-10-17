@@ -21,7 +21,7 @@ public class Theme {
     @Column(nullable = false, unique = true)
     private String name;
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY, mappedBy = "theme", orphanRemoval = true)
-    private Set<Crossword> crosswords = new HashSet<>();
+    private Set<StandardCrossword> crosswords = new HashSet<>();
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY, mappedBy = "theme", orphanRemoval = true)
     private Set<Clue> clues = new HashSet<>();
 }

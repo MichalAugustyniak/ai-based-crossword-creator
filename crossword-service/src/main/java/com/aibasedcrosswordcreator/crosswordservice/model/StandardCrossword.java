@@ -6,6 +6,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,8 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "crosswords")
-public class Crossword {
+@Table(name = "standard_crosswords")
+public class StandardCrossword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +38,7 @@ public class Crossword {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private ProviderModel providerModel;
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY, mappedBy = "crossword", orphanRemoval = true)
-    private Set<Coordinates> coordinates;
+    private Set<Coordinates> coordinates = new HashSet<>();
     @Column(nullable = false)
     private String type;
 }

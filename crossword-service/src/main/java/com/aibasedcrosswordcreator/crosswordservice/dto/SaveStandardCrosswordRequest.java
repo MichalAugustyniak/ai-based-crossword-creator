@@ -1,16 +1,12 @@
 package com.aibasedcrosswordcreator.crosswordservice.dto;
 
 import java.util.List;
-import java.util.UUID;
 
-public record CrosswordResponse(
-        UUID uuid,
+public record SaveStandardCrosswordRequest(
         String theme,
+        String language,
         int height,
         int width,
-        String language,
-        String creator,
-        String[][] body,
         List<WordDTO> words
 ) {
 }

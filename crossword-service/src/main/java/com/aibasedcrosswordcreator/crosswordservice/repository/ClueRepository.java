@@ -31,7 +31,7 @@ public interface ClueRepository extends JpaRepository<Clue, Long> {
             "FROM Clue c " +
             "JOIN FETCH c.word cw " +
             "WHERE c.theme = :theme AND c.language = :language AND c.providerModel IS null AND LENGTH(c.word.text) <= :maxLength")
-    List<Clue> findByThemeAndLanguageFetchedWord(
+    List<Clue> findByThemeAndLanguageAndNullProviderModelFetchedWord(
             @Param("theme") Theme theme,
             @Param("language") Language language,
             @Param("maxLength") int maxLength
@@ -71,7 +71,7 @@ public interface ClueRepository extends JpaRepository<Clue, Long> {
             "FROM Clue c " +
             "JOIN FETCH c.word cw " +
             "WHERE cw.text IN :texts AND c.language = :language AND c.theme = :theme AND c.providerModel IS null ")
-    List<Clue> findAllByTextCollectionAndThemeAndLanguageProviderModelIsNullFetchedWord(
+    List<Clue> findAllByTextCollectionAndThemeAndLanguageAndProviderModelIsNullFetchedWord(
             @Param("texts") Collection<String> texts,
             @Param("theme") Theme theme,
             @Param("language") Language language

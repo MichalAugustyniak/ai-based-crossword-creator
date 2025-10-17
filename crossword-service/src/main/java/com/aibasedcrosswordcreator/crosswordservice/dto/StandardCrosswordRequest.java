@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record CrosswordRequest(@NotNull UUID uuid) {
+public record StandardCrosswordRequest(@NotNull UUID uuid) {
 }

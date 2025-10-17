@@ -3,6 +3,7 @@ package com.aibasedcrosswordcreator.crosswordservice.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -27,5 +28,5 @@ public class Clue {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private ProviderModel providerModel;
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY, mappedBy = "clue", orphanRemoval = true)
-    private Set<Coordinates> coordinates;
+    private Set<Coordinates> coordinates = new HashSet<>();
 }

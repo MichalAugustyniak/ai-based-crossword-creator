@@ -18,7 +18,7 @@ public class Coordinates {
     private Integer y;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "crossword_id", referencedColumnName = "id", nullable = false)
-    private Crossword crossword;
+    private StandardCrossword crossword;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "clue_id", referencedColumnName = "id", nullable = false)
     private Clue clue;

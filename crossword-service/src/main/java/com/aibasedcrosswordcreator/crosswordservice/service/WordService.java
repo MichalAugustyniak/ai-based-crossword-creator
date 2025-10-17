@@ -3,12 +3,14 @@ package com.aibasedcrosswordcreator.crosswordservice.service;
 import com.aibasedcrosswordcreator.crosswordservice.api.AiServiceApi;
 import com.aibasedcrosswordcreator.crosswordservice.dto.*;
 import com.aibasedcrosswordcreator.crosswordservice.exception.AiException;
+import com.aibasedcrosswordcreator.crosswordservice.helper.WordHelper;
 import com.aibasedcrosswordcreator.crosswordservice.keycloak.api.KeycloakApi;
 import com.aibasedcrosswordcreator.crosswordservice.keycloak.dto.Token;
 import com.aibasedcrosswordcreator.crosswordservice.model.*;
 import com.aibasedcrosswordcreator.crosswordservice.prompt.WordPromptBuilder;
 import com.aibasedcrosswordcreator.crosswordservice.prompt.WordPromptParser;
 import com.aibasedcrosswordcreator.crosswordservice.repository.*;
+import com.aibasedcrosswordcreator.crosswordservice.util.ProviderModelUtil;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -66,23 +68,7 @@ public class WordService {
         this.adminPassword = adminPassword;
     }
 
-    static Word[] buildWords(String[] words, String[] clues, Language language, Theme theme, ProviderModel providerModel) {
-        Word[] wordsToSave = new Word[words.length];
-        for (int i = 0; i < wordsToSave.length; i++) {
-            wordsToSave[i] = new Word();
-            wordsToSave[i].setText(words[i]);
-            wordsToSave[i].getClue().add(Clue.builder().
-                    word(wordsToSave[i]).
-                    language(language).
-                    theme(theme).
-                    text(clues[i].trim())
-                    .providerModel(providerModel)
-                    .build());
-        }
-        return wordsToSave;
-    }
-
-    public WordsResponse generateWords(@NotNull GenerateWordsRequestDTO generateWordsRequestDTO) {
+    public WordsResponse generateWords(@NotNull GenerateWordsRequest generateWordsRequestDTO) {
         Token token = keycloakApi.getToken(adminUsername, adminPassword, "password");
         String prompt = wordPromptBuilder.generateWords(generateWordsRequestDTO.details());
         AiRequest body = new AiRequest(prompt, generateWordsRequestDTO.provider(), generateWordsRequestDTO.model());
@@ -120,7 +106,7 @@ public class WordService {
         Set<String> wordSet = new HashSet<>(words);
         String providerName = generateWordsRequestDTO.provider();
         String modelName = generateWordsRequestDTO.model();
-        ProviderModel providerModel = CrosswordService.findProviderModel(
+        ProviderModel providerModel = ProviderModelUtil.findProviderModel(
                 providerName,
                 modelName,
                 providerRepository,
@@ -181,9 +167,8 @@ public class WordService {
                 }
             }
         }
-        Word[] builtWords = buildWords(filteredWords, clues.toArray(new String[0]), language, theme, providerModel);
+        Word[] builtWords = WordHelper.buildWords(filteredWords, clues.toArray(new String[0]), language, theme, providerModel);
         wordRepository.saveAll(Arrays.asList(builtWords));
-        //return Arrays.asList(filteredWords);
         List<String> finalClues = clues;
         return new WordsResponse(
                 IntStream.of(Math.min(builtWords.length, clues.size()))
@@ -212,7 +197,7 @@ public class WordService {
                     themeRepository.save(newTheme);
                     return newTheme;
                 });
-        ProviderModel providerModel = CrosswordService.findProviderModel(providerName, modelName, providerRepository, modelRepository, providerModelRepository);
+        ProviderModel providerModel = ProviderModelUtil.findProviderModel(providerName, modelName, providerRepository, modelRepository, providerModelRepository);
         String[] wordList = request.words().toArray(new String[0]);
         List<String> clues = null;
         int currentAttempt = 0;
@@ -248,7 +233,7 @@ public class WordService {
                 }
             }
         }
-        Word[] words = buildWords(wordList, clues.toArray(new String[0]), language, theme, providerModel);
+        Word[] words = WordHelper.buildWords(wordList, clues.toArray(new String[0]), language, theme, providerModel);
         wordRepository.saveAll(Arrays.asList(words));
     }
 
