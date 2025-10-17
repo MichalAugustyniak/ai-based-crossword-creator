@@ -1,12 +1,11 @@
 package com.aibasedcrosswordcreator.crosswordservice.controller;
 
-import com.aibasedcrosswordcreator.crosswordservice.dto.GenerateWordsRequestDTO;
-import com.aibasedcrosswordcreator.crosswordservice.dto.SaveWordsAndGenerateCluesRequest;
-import com.aibasedcrosswordcreator.crosswordservice.dto.SaveWordsWithCluesRequest;
-import com.aibasedcrosswordcreator.crosswordservice.dto.WordsResponse;
+import com.aibasedcrosswordcreator.crosswordservice.registry.EndpointActionHandlerUsingServiceRegistry;
 import com.aibasedcrosswordcreator.crosswordservice.service.WordService;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,27 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class WordController {
     private final WordService wordService;
+    private final EndpointActionHandlerUsingServiceRegistry<WordService> registry;
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
-
-    @PostMapping("/generate")
-    public ResponseEntity<WordsResponse> generateWords(@NotNull @RequestBody GenerateWordsRequestDTO generateWordsRequestDTO) {
-        WordsResponse response = wordService.generateWords(generateWordsRequestDTO);
-        return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/save-and-generate-clues")
-    public ResponseEntity<Void> saveWithClues(@NotNull @RequestBody SaveWordsAndGenerateCluesRequest saveWordsAndGenerateCluesDTO) {
-        wordService.saveWordsAndGenerateClues(saveWordsAndGenerateCluesDTO);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/save-with-clues")
-    public ResponseEntity<Void> saveAndGenerateClues(@NotNull @RequestBody SaveWordsWithCluesRequest dto) {
-        wordService.addWordsWithClues(dto);
-        return ResponseEntity.ok().build();
+    @PostMapping
+    public ResponseEntity<Object> createWords(@NotNull @RequestBody JsonNode request, @RequestParam String action) {
+        var handler = registry.getHandler(action);
+        var response = handler.handle(request, wordService);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

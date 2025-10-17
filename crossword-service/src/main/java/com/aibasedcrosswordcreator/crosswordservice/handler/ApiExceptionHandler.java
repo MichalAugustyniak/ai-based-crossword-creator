@@ -36,4 +36,15 @@ public class ApiExceptionHandler {
         );
         return new ResponseEntity<>(response, status);
     }
+
+    @ExceptionHandler(value = InvalidRequestParamException.class)
+    public ResponseEntity<Object> invalidRequestParamException(Exception e) {
+        var status = HttpStatus.BAD_REQUEST;
+        var response = new ApiExceptionResponse(
+                e.getMessage(),
+                ZonedDateTime.now(),
+                status
+        );
+        return new ResponseEntity<>(response, status);
+    }
 }

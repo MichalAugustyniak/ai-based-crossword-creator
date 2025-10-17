@@ -3,7 +3,7 @@ package com.aibasedcrosswordcreator.crosswordservice.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record GenerateCrosswordRequest(
+public record GenerateStandardCrosswordRequest(
         @Size(min = 2, max = 20,
                 message = "The theme must be between 3 and 20 characters long.")
         String theme,

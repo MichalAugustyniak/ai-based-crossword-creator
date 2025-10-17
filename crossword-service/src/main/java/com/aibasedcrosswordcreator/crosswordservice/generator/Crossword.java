@@ -71,9 +71,11 @@ public class Crossword {
         for (int i = 0; i < word.length(); i++) {
             this.body[startPoint.hIndex()][startPoint.wIndex() + i].setContent(String.valueOf(word.charAt(i)));
         }
+        var newWord = new Word(WordOrientation.HORIZONTAL, startPoint, word, String.valueOf(wordIndex));
         this.body[startPoint.hIndex()][startPoint.wIndex() - 1].setContent(String.valueOf(wordIndex));
         this.body[startPoint.hIndex()][startPoint.wIndex() - 1].setWordIdentifier(true);
-        this.words.add(new Word(WordOrientation.HORIZONTAL, startPoint, word, String.valueOf(wordIndex)));
+        this.body[startPoint.hIndex()][startPoint.wIndex() - 1].setOwner(newWord);
+        this.words.add(newWord);
     }
 
     public void placeWordVertically(String word, int wordIndex, Point startPoint) {
@@ -94,9 +96,11 @@ public class Crossword {
         for (int i = 0; i < word.length(); i++) {
             this.body[startPoint.hIndex() + i][startPoint.wIndex()].setContent(String.valueOf(word.charAt(i)));
         }
+        var newWord = new Word(WordOrientation.VERTICAL, startPoint, word, String.valueOf(wordIndex));
         this.body[startPoint.hIndex() - 1][startPoint.wIndex()].setContent(String.valueOf(wordIndex));
         this.body[startPoint.hIndex() - 1][startPoint.wIndex()].setWordIdentifier(true);
-        this.words.add(new Word(WordOrientation.VERTICAL, startPoint, word, String.valueOf(wordIndex)));
+        this.body[startPoint.hIndex() - 1][startPoint.wIndex()].setOwner(newWord);
+        this.words.add(newWord);
     }
 
     public boolean isSpaceNextToWord(String word, Point startPoint, WordOrientation orientation) {
