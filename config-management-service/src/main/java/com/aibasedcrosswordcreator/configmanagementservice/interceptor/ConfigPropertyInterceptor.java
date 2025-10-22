@@ -2,6 +2,7 @@ package com.aibasedcrosswordcreator.configmanagementservice.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class ConfigPropertyInterceptor implements HandlerInterceptor {
-
     private final WebClient.Builder builder;
 
     public ConfigPropertyInterceptor(WebClient.Builder builder) {
@@ -34,16 +34,18 @@ public class ConfigPropertyInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         Mono<ResponseEntity<Void>> mono = builder.build()
                 .post()
-                .uri(String.format("https://%s/actuator/busrefresh", applicationName))
+                .uri(String.format("http://%s/actuator/busrefresh", applicationName))
+                .header(HttpHeaders.AUTHORIZATION, token)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, httpResponse -> {
-                    System.out.println("Error 4xx occurred while making request to config server");
+                    System.out.println("Error 4xx occurred while making request to " + applicationName);
                     return Mono.empty();
                 })
                 .onStatus(HttpStatusCode::is5xxServerError, httpResponse -> {
-                    System.out.println("Error 5xx occurred while making request to config server");
+                    System.out.println("Error 5xx occurred while making request to " + applicationName);
                     return Mono.empty();
                 })
                 .toBodilessEntity()

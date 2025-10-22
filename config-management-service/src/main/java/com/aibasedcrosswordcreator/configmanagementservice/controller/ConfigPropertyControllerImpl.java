@@ -1,5 +1,6 @@
 package com.aibasedcrosswordcreator.configmanagementservice.controller;
 
+import com.aibasedcrosswordcreator.configmanagementservice.dto.ConfigPropertyResponse;
 import com.aibasedcrosswordcreator.configmanagementservice.dto.PropertyRequest;
 import com.aibasedcrosswordcreator.configmanagementservice.dto.SetPropertyRequest;
 import com.aibasedcrosswordcreator.configmanagementservice.service.ConfigPropertyService;
@@ -17,7 +18,7 @@ public class ConfigPropertyControllerImpl implements ConfigPropertyController {
     private final ConfigPropertyService configPropertyService;
 
     @GetMapping("/{name}")
-    public ResponseEntity<String> getProperty(
+    public ResponseEntity<ConfigPropertyResponse> getProperty(
             @NotBlank(message = "The property name must be not blank.")
             @PathVariable("name") String name,
             @NotBlank(message = "The application-name parameter must be not blank.")

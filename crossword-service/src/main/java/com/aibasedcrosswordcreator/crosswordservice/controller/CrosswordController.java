@@ -53,7 +53,7 @@ public class CrosswordController {
             @RequestParam(required = false) String language,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") @Max(100) int size,
-            @RequestParam String type
+            @RequestParam(required = false) String type
     ) {
         var request = new GetCrosswordsRequestDTO(
                 size,
@@ -68,7 +68,8 @@ public class CrosswordController {
         var objectMapper = new ObjectMapper();
         var jsonNode = objectMapper.valueToTree(request);
         var service = serviceProxyRegistry.getCrosswordServiceProxy(type);
-        return ResponseEntity.ok(service.getCrosswords(jsonNode));
+        var crosswords = service.getCrosswords(jsonNode);
+        return ResponseEntity.ok(crosswords);
     }
 }
 
