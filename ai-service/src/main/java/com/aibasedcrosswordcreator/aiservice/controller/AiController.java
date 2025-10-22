@@ -1,6 +1,7 @@
 package com.aibasedcrosswordcreator.aiservice.controller;
 
-import com.aibasedcrosswordcreator.aiservice.dto.AiDTO;
+import com.aibasedcrosswordcreator.aiservice.dto.AiMessageRequest;
+import com.aibasedcrosswordcreator.aiservice.dto.AiMessageResponse;
 import com.aibasedcrosswordcreator.aiservice.service.AiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class AiController {
     private final AiService aiService;
 
     @PostMapping
-    public ResponseEntity<AiDTO> ai(@RequestBody AiDTO aiDTO) {
-        return ResponseEntity.ok(this.aiService.ai(aiDTO));
+    public ResponseEntity<AiMessageResponse> message(@RequestBody AiMessageRequest request) {
+        return ResponseEntity.ok(this.aiService.message(request));
     }
 }
