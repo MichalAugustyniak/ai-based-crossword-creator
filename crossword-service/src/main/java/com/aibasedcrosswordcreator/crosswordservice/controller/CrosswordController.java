@@ -44,7 +44,7 @@ public class CrosswordController {
     }
 
     @GetMapping
-    public ResponseEntity<CrosswordResponse> getCrosswords(
+    public ResponseEntity<Object> getCrosswords(
             @RequestParam(required = false) String creator,
             @RequestParam(required = false) Integer height,
             @RequestParam(required = false) Integer width,
@@ -69,7 +69,7 @@ public class CrosswordController {
         var jsonNode = objectMapper.valueToTree(request);
         var service = serviceProxyRegistry.getCrosswordServiceProxy(type);
         var crosswords = service.getCrosswords(jsonNode);
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(crosswords);
     }
 }
 
