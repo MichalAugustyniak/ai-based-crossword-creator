@@ -30,7 +30,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/api/users", "/api/users/**").hasAnyRole("user", "admin")
+                auth.requestMatchers("/api/users", "/api/users/**").hasAnyRole("member", "admin")
                         .anyRequest().permitAll()
         );
         http.sessionManagement(sess -> sess.sessionCreationPolicy(

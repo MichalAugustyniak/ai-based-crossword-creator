@@ -26,10 +26,10 @@ public class ChatRegistryConfig {
     public static class RegisterOpenAiChats {
         ChatRegistry chatRegistry;
 
-        @Value("${ENABLED_OPENAI_MODELS}")
+        @Value("${ai-providers.openai.enabled-models}")
         List<String> enabledOpenAiModels;
 
-        @Value("${OPENAI_API_KEY:#{null}}")
+        @Value("${ai-providers.openai.api-key:#{null}}")
         String key;
 
         public RegisterOpenAiChats(ChatRegistry chatRegistry) {
