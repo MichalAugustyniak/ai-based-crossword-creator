@@ -1,6 +1,16 @@
 # Introduction 
 This project aims to create a crossword puzzle generator web application using Java with Spring Boot and integrating various AI APIs. The motivation behind this project is to provide users with an interactive and dynamic crossword puzzle experience, where puzzles are generated with the help of AI that makes crossword puzzle based on criteria that user provides.
 
+## Docker Hub
+https://hub.docker.com/r/michalaugustyniak/aicrc-ai-service \
+https://hub.docker.com/r/michalaugustyniak/aicrc-api-gateway \
+https://hub.docker.com/r/michalaugustyniak/aicrc-auth-service \
+https://hub.docker.com/r/michalaugustyniak/aicrc-config-management-service \
+https://hub.docker.com/r/michalaugustyniak/aicrc-config-server \
+https://hub.docker.com/r/michalaugustyniak/aicrc-crossword-service \
+https://hub.docker.com/r/michalaugustyniak/aicrc-eureka \
+https://hub.docker.com/r/michalaugustyniak/aicrc-user-service
+
 # Tech stack
 - Java
 - Spring Boot
