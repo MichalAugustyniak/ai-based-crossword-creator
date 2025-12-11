@@ -3,8 +3,10 @@ name: Build and Push Config Server Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "config-server/**/*" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "config-server/**/*" ]
 
 jobs:
 

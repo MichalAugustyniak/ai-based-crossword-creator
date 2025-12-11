@@ -3,8 +3,10 @@ name: Build and Push AI Service Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "ai-service/**/*" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "ai-service/**/*" ]
 
 jobs:
 

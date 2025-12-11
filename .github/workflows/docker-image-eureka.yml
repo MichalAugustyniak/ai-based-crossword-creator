@@ -3,8 +3,10 @@ name: Build and Push Eureka Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "eureka/**/*" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "eureka/**/*" ]
 
 jobs:
 

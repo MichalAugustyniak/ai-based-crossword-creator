@@ -3,8 +3,10 @@ name: Build and Push Auth Service Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "auth-service/**/*" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "auth-service/**/*" ]
 
 jobs:
 

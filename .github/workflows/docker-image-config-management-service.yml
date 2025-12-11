@@ -3,8 +3,10 @@ name: Build and Push Config Management Service Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "config-management-service/**/*" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "config-management-service/**/*" ]
 
 jobs:
 

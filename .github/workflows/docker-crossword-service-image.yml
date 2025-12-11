@@ -3,8 +3,10 @@ name: Build and Push Crossword Service Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "crossword-service/**/*" ]
   pull_request:
     branches: [ "main" ]
+    paths: [ "crossword-service/**/*" ]
 
 jobs:
 
